@@ -171,10 +171,6 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
     }
   };
 
-  const openDatePicker = () => {
-    dateInputRef.current?.showPicker();
-  };
-
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleString('en-US', {
@@ -230,21 +226,29 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
             })}
           </div>
 
-          {/* Date picker */}
-          <button
-            type="button"
-            onClick={openDatePicker}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-              isDark
-                ? 'bg-[#2d2d2d] text-[#f5f5f7] hover:bg-[#3d3d3d]'
-                : 'bg-white text-[#1d1d1f] hover:bg-[#e8e8ed]'
-            }`}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            {editDueDate ? formatDateTime(editDueDate) : 'Due date'}
-          </button>
+          {/* Date picker - with overlay input for iOS compatibility */}
+          <div className="relative">
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+                isDark
+                  ? 'bg-[#2d2d2d] text-[#f5f5f7] hover:bg-[#3d3d3d]'
+                  : 'bg-white text-[#1d1d1f] hover:bg-[#e8e8ed]'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {editDueDate ? formatDateTime(editDueDate) : 'Due date'}
+            </div>
+            <input
+              ref={dateInputRef}
+              type="datetime-local"
+              value={editDueDate}
+              onChange={(e) => setEditDueDate(e.target.value)}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              style={{ colorScheme: isDark ? 'dark' : 'light' }}
+            />
+          </div>
 
           {editDueDate && (
             <button
@@ -261,15 +265,6 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
               </svg>
             </button>
           )}
-
-          <input
-            ref={dateInputRef}
-            type="datetime-local"
-            value={editDueDate}
-            onChange={(e) => setEditDueDate(e.target.value)}
-            className="sr-only"
-            tabIndex={-1}
-          />
 
           <div className="flex gap-2 ml-auto">
             <button
@@ -303,8 +298,8 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
           : 'hover:bg-[#f5f5f7]/60'
       } ${isOverdue ? 'ring-2 ring-[#ff3b30] ring-inset' : ''}`}
     >
-      {/* Drag Handle */}
-      <div className={`flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${
+      {/* Drag Handle - visible on touch devices, hover on desktop */}
+      <div className={`flex-shrink-0 opacity-40 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ${
         isDark ? 'text-[#555]' : 'text-[#c5c5c7]'
       }`}>
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -367,13 +362,13 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
         )}
       </div>
 
-      {/* Delete button */}
+      {/* Delete button - visible on touch devices, hover on desktop */}
       <button
         onClick={() => onDelete(todo.id)}
-        className={`flex-shrink-0 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all ${
+        className={`flex-shrink-0 p-2 rounded-lg opacity-60 sm:opacity-0 sm:group-hover:opacity-100 transition-all ${
           isDark
-            ? 'text-[#86868b] hover:text-[#ff453a] hover:bg-[#2d2d2d]'
-            : 'text-[#86868b] hover:text-[#ff3b30] hover:bg-[#f5f5f7]'
+            ? 'text-[#86868b] hover:text-[#ff453a] hover:bg-[#2d2d2d] active:text-[#ff453a]'
+            : 'text-[#86868b] hover:text-[#ff3b30] hover:bg-[#f5f5f7] active:text-[#ff3b30]'
         }`}
         title="Delete"
       >

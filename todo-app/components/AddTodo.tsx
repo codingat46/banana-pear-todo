@@ -24,10 +24,6 @@ export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
     }
   };
 
-  const openDatePicker = () => {
-    dateInputRef.current?.showPicker();
-  };
-
   const formatDateTime = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -116,25 +112,34 @@ export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
           } backdrop-blur-sm`}
         />
 
-        {/* Date picker button */}
-        <button
-          type="button"
-          onClick={openDatePicker}
-          className={`flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
-            dueDate
-              ? 'bg-[#0071e3] text-white'
-              : isDark
-                ? 'bg-[#1d1d1f]/80 text-[#86868b] hover:text-[#f5f5f7] border border-[#424245]'
-                : 'bg-[#f5f5f7]/80 text-[#86868b] hover:text-[#1d1d1f] border border-transparent'
-          } backdrop-blur-sm`}
-        >
-          <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span className="hidden sm:inline">
-            {dueDate ? formatDateTime(dueDate) : 'Due'}
-          </span>
-        </button>
+        {/* Date picker button - wraps the actual input for iOS compatibility */}
+        <div className="relative">
+          <div
+            className={`flex items-center gap-2 px-3 py-3 rounded-xl text-sm font-medium transition-all whitespace-nowrap cursor-pointer ${
+              dueDate
+                ? 'bg-[#0071e3] text-white'
+                : isDark
+                  ? 'bg-[#1d1d1f]/80 text-[#86868b] hover:text-[#f5f5f7] border border-[#424245]'
+                  : 'bg-[#f5f5f7]/80 text-[#86868b] hover:text-[#1d1d1f] border border-transparent'
+            } backdrop-blur-sm`}
+          >
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="hidden sm:inline">
+              {dueDate ? formatDateTime(dueDate) : 'Due'}
+            </span>
+          </div>
+          {/* Actual datetime input - positioned over button for touch/click */}
+          <input
+            ref={dateInputRef}
+            type="datetime-local"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            style={{ colorScheme: isDark ? 'dark' : 'light' }}
+          />
+        </div>
 
         {/* Clear date button */}
         {dueDate && (
@@ -153,16 +158,6 @@ export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
             </svg>
           </button>
         )}
-
-        {/* Hidden datetime input */}
-        <input
-          ref={dateInputRef}
-          type="datetime-local"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          className="sr-only"
-          tabIndex={-1}
-        />
 
         {/* Add button */}
         <button
