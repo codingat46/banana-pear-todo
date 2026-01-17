@@ -298,8 +298,8 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
           : 'hover:bg-[#f5f5f7]/60'
       } ${isOverdue ? 'ring-2 ring-[#ff3b30] ring-inset' : ''}`}
     >
-      {/* Drag Handle - visible on touch devices, hover on desktop */}
-      <div className={`flex-shrink-0 opacity-40 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ${
+      {/* Drag Handle - visible on touch devices, hover on desktop (lg: 1024px+) */}
+      <div className={`flex-shrink-0 opacity-40 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity ${
         isDark ? 'text-[#555]' : 'text-[#c5c5c7]'
       }`}>
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -362,10 +362,10 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
         )}
       </div>
 
-      {/* Delete button - visible on touch devices, hover on desktop */}
+      {/* Delete button - visible on touch devices, hover on desktop (lg: 1024px+) */}
       <button
         onClick={() => onDelete(todo.id)}
-        className={`flex-shrink-0 p-2 rounded-lg opacity-60 sm:opacity-0 sm:group-hover:opacity-100 transition-all ${
+        className={`flex-shrink-0 p-2 rounded-lg opacity-60 lg:opacity-0 lg:group-hover:opacity-100 transition-all ${
           isDark
             ? 'text-[#86868b] hover:text-[#ff453a] hover:bg-[#2d2d2d] active:text-[#ff453a]'
             : 'text-[#86868b] hover:text-[#ff3b30] hover:bg-[#f5f5f7] active:text-[#ff3b30]'
