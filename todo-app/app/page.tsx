@@ -381,19 +381,19 @@ export default function Home() {
 
             {showColorPicker && (
               <div
-                className={`absolute top-full mt-2 right-0 p-4 rounded-2xl shadow-xl border backdrop-blur-xl overflow-hidden w-[calc(100vw-2rem)] max-w-[360px] ${
+                className={`absolute top-full mt-2 right-0 p-5 rounded-2xl shadow-xl border backdrop-blur-xl overflow-hidden w-[420px] max-w-[calc(100vw-2rem)] ${
                   isDark
                     ? 'bg-[#2d2d2d]/95 border-[#424245]'
                     : 'bg-white/98 border-[#d2d2d7]'
                 }`}
               >
                 {/* Tabs */}
-                <div className="flex gap-0.5 mb-4 p-1 rounded-xl bg-black/5 overflow-hidden">
+                <div className="flex gap-1 mb-4 p-1.5 rounded-xl bg-black/5">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex-1 flex items-center justify-center gap-1 px-1.5 py-2 rounded-lg text-xs font-medium transition-all min-w-0 ${
+                      className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                         activeTab === tab.id
                           ? isDark
                             ? 'bg-[#3d3d3d] text-white shadow-sm'
@@ -404,7 +404,7 @@ export default function Home() {
                       }`}
                     >
                       {tab.icon}
-                      <span className="hidden sm:inline truncate">{tab.label}</span>
+                      <span>{tab.label}</span>
                     </button>
                   ))}
                 </div>
