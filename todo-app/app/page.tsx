@@ -68,11 +68,11 @@ const GRADIENTS: Background[] = [
 
 const PATTERNS: Background[] = [
   { type: 'pattern', name: 'Geometric', value: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #667eea 0%, #764ba2 100%)', dark: true },
-  { type: 'pattern', name: 'Diamonds', value: 'url("data:image/svg+xml,%3Csvg width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M12 2L2 12l10 10 10-10L12 2zm0 4l6 6-6 6-6-6 6-6z\' fill=\'%23ffffff\' fill-opacity=\'0.25\'/%3E%3C/svg%3E"), linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', dark: false },
-  { type: 'pattern', name: 'Waves', value: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'20\' viewBox=\'0 0 100 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z\' fill=\'%23ffffff\' fill-opacity=\'0.3\' fill-rule=\'evenodd\'/%3E%3C/svg%3E"), linear-gradient(180deg, #11998e 0%, #38ef7d 100%)', dark: false },
+  { type: 'pattern', name: 'Diamonds', value: 'url("data:image/svg+xml,%3Csvg width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M12 2L2 12l10 10 10-10L12 2zm0 4l6 6-6 6-6-6 6-6z\' fill=\'%23ffffff\' fill-opacity=\'0.25\'/%3E%3C/svg%3E"), linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', dark: true },
+  { type: 'pattern', name: 'Waves', value: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'20\' viewBox=\'0 0 100 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z\' fill=\'%23ffffff\' fill-opacity=\'0.3\' fill-rule=\'evenodd\'/%3E%3C/svg%3E"), linear-gradient(180deg, #11998e 0%, #38ef7d 100%)', dark: true },
   { type: 'pattern', name: 'Triangles', value: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'72\' viewBox=\'0 0 36 72\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)', dark: false },
   { type: 'pattern', name: 'Zigzag', value: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'12\' viewBox=\'0 0 40 12\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L40 .172V0h-2.172L20 8.172 2.172 0H0v.172L18.172 12h-4z\' fill=\'%23ffffff\' fill-opacity=\'0.2\' fill-rule=\'evenodd\'/%3E%3C/svg%3E"), linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', dark: false },
-  { type: 'pattern', name: 'Hexagons', value: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.15\'%3E%3Cpath d=\'M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)', dark: false },
+  { type: 'pattern', name: 'Hexagons', value: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.15\'%3E%3Cpath d=\'M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)', dark: true },
   { type: 'pattern', name: 'Circles', value: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'20\' cy=\'20\' r=\'8\' fill=\'none\' stroke=\'%23ffffff\' stroke-opacity=\'0.3\' stroke-width=\'2\'/%3E%3C/svg%3E"), linear-gradient(135deg, #fa709a 0%, #fee140 100%)', dark: false },
   { type: 'pattern', name: 'Stars', value: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\' viewBox=\'0 0 50 50\'%3E%3Cg fill=\'%23FFD700\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M25 1l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z\'/%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', dark: true },
 ];
@@ -297,12 +297,26 @@ export default function Home() {
       <div className="max-w-2xl mx-auto relative">
         {/* Header */}
         <header className="text-center mb-12">
-          <h1 className={`text-4xl sm:text-5xl font-semibold tracking-tight mb-3 ${
-            isDark ? 'text-white drop-shadow-lg' : 'text-[#1d1d1f]'
-          }`}>
+          <h1
+            className={`text-4xl sm:text-5xl font-semibold tracking-tight mb-3 ${
+              isDark ? 'text-white' : 'text-[#1d1d1f]'
+            }`}
+            style={{
+              textShadow: isDark
+                ? '0 2px 10px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3)'
+                : '0 1px 2px rgba(255,255,255,0.8)'
+            }}
+          >
             🍌 Banana & Pear 🍐
           </h1>
-          <p className={`text-lg ${isDark ? 'text-white/80' : 'text-[#86868b]'}`}>
+          <p
+            className={`text-lg font-medium ${isDark ? 'text-white/90' : 'text-[#1d1d1f]/70'}`}
+            style={{
+              textShadow: isDark
+                ? '0 1px 4px rgba(0,0,0,0.5)'
+                : '0 1px 2px rgba(255,255,255,0.5)'
+            }}
+          >
             {todos.length === 0
               ? 'Start by adding a task'
               : `${todos.filter((t) => !t.completed).length} of ${todos.length} remaining`}
