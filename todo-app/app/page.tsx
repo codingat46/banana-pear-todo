@@ -68,7 +68,7 @@ const GRADIENTS: Background[] = [
 
 const PATTERNS: Background[] = [
   { type: 'pattern', name: 'Geometric', value: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.15\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #667eea 0%, #764ba2 100%)', dark: true },
-  { type: 'pattern', name: 'Dots', value: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.2\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E"), #ffecd2', dark: false },
+  { type: 'pattern', name: 'Polka Dots', value: 'url("data:image/svg+xml,%3Csvg width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'12\' cy=\'12\' r=\'4\' fill=\'%23FF6B9D\' fill-opacity=\'0.6\'/%3E%3C/svg%3E"), #FFF0F5', dark: false },
   { type: 'pattern', name: 'Waves', value: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'20\' viewBox=\'0 0 100 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z\' fill=\'%2300D2D3\' fill-opacity=\'0.2\' fill-rule=\'evenodd\'/%3E%3C/svg%3E"), linear-gradient(180deg, #E0F7FA 0%, #B2EBF2 100%)', dark: false },
   { type: 'pattern', name: 'Triangles', value: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'72\' viewBox=\'0 0 36 72\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%23f093fb\' fill-opacity=\'0.15\'%3E%3Cpath d=\'M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', dark: false },
   { type: 'pattern', name: 'Zigzag', value: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'12\' viewBox=\'0 0 40 12\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L40 .172V0h-2.172L20 8.172 2.172 0H0v.172L18.172 12h-4z\' fill=\'%235CD85A\' fill-opacity=\'0.15\' fill-rule=\'evenodd\'/%3E%3C/svg%3E"), linear-gradient(135deg, #D0F5E8 0%, #A8E6CF 100%)', dark: false },
@@ -367,20 +367,19 @@ export default function Home() {
 
             {showColorPicker && (
               <div
-                className={`absolute bottom-full mb-3 left-1/2 -translate-x-1/2 p-4 rounded-2xl shadow-xl border backdrop-blur-xl ${
+                className={`absolute bottom-full mb-3 left-1/2 -translate-x-1/2 p-4 rounded-2xl shadow-xl border backdrop-blur-xl overflow-hidden w-[calc(100vw-2rem)] max-w-[360px] ${
                   isDark
                     ? 'bg-[#2d2d2d]/95 border-[#424245]'
                     : 'bg-white/98 border-[#d2d2d7]'
                 }`}
-                style={{ width: '360px' }}
               >
                 {/* Tabs */}
-                <div className="flex gap-1 mb-4 p-1 rounded-xl bg-black/5">
+                <div className="flex gap-0.5 mb-4 p-1 rounded-xl bg-black/5 overflow-hidden">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`flex-1 flex items-center justify-center gap-1 px-1.5 py-2 rounded-lg text-xs font-medium transition-all min-w-0 ${
                         activeTab === tab.id
                           ? isDark
                             ? 'bg-[#3d3d3d] text-white shadow-sm'
@@ -391,7 +390,7 @@ export default function Home() {
                       }`}
                     >
                       {tab.icon}
-                      <span className="hidden sm:inline">{tab.label}</span>
+                      <span className="hidden sm:inline truncate">{tab.label}</span>
                     </button>
                   ))}
                 </div>
