@@ -1,18 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import TodoItem, { Todo } from './TodoItem';
+import TodoItem, { Todo, TodoType } from './TodoItem';
 
 interface TodoListProps {
   todos: Todo[];
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
-  onEdit: (id: string, text: string, dueDate?: string) => void;
+  onEdit: (id: string, text: string, dueDate?: string, type?: TodoType, assignee?: string) => void;
   onReorder: (todos: Todo[]) => void;
+  users: string[];
   isDark?: boolean;
 }
 
-export default function TodoList({ todos, onToggle, onDelete, onEdit, onReorder, isDark = false }: TodoListProps) {
+export default function TodoList({ todos, onToggle, onDelete, onEdit, onReorder, users, isDark = false }: TodoListProps) {
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [dragOverId, setDragOverId] = useState<string | null>(null);
 
@@ -111,6 +112,7 @@ export default function TodoList({ todos, onToggle, onDelete, onEdit, onReorder,
             onToggle={onToggle}
             onDelete={onDelete}
             onEdit={onEdit}
+            users={users}
             isDark={isDark}
           />
         </div>

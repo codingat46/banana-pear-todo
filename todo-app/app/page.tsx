@@ -7,6 +7,7 @@ import { Todo, TodoType } from '@/components/TodoItem';
 
 const STORAGE_KEY = 'todos';
 const BG_KEY = 'background';
+const USERS_KEY = 'users';
 
 type BackgroundType = 'color' | 'gradient' | 'pattern' | 'image';
 
@@ -97,6 +98,9 @@ export default function Home() {
   const [customImage, setCustomImage] = useState<string | null>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('colors');
+  const [users, setUsers] = useState<string[]>([]);
+  const [showUserManager, setShowUserManager] = useState(false);
+  const [newUserName, setNewUserName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isDark = customImage ? true : background.dark;
@@ -132,6 +136,15 @@ export default function Home() {
       }
     }
 
+    const storedUsers = localStorage.getItem(USERS_KEY);
+    if (storedUsers) {
+      try {
+        setUsers(JSON.parse(storedUsers));
+      } catch (e) {
+        console.error('Failed to parse stored users:', e);
+      }
+    }
+
     setIsLoaded(true);
   }, []);
 
@@ -149,13 +162,21 @@ export default function Home() {
     }
   }, [background, customImage, isLoaded]);
 
-  const addTodo = (text: string, dueDate?: string, type: TodoType = 'personal') => {
+  // Save users to localStorage
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+  }, [users, isLoaded]);
+
+  const addTodo = (text: string, dueDate?: string, type: TodoType = 'personal', assignee?: string) => {
     const newTodo: Todo = {
       id: Date.now().toString(),
       text,
       completed: false,
       dueDate,
       type,
+      assignee,
     };
     setTodos((prev) => [newTodo, ...prev]);
   };
@@ -172,12 +193,23 @@ export default function Home() {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  const editTodo = (id: string, text: string, dueDate?: string, type?: TodoType) => {
+  const editTodo = (id: string, text: string, dueDate?: string, type?: TodoType, assignee?: string) => {
     setTodos((prev) =>
       prev.map((todo) =>
-        todo.id === id ? { ...todo, text, dueDate, type: type ?? todo.type } : todo
+        todo.id === id ? { ...todo, text, dueDate, type: type ?? todo.type, assignee } : todo
       )
     );
+  };
+
+  const addUser = (name: string) => {
+    const trimmedName = name.trim();
+    if (trimmedName && !users.includes(trimmedName)) {
+      setUsers((prev) => [...prev, trimmedName]);
+    }
+  };
+
+  const removeUser = (name: string) => {
+    setUsers((prev) => prev.filter((u) => u !== name));
   };
 
   const reorderTodos = (newTodos: Todo[]) => {
@@ -332,7 +364,7 @@ export default function Home() {
           }`}
         >
           <div className="p-6">
-            <AddTodo onAdd={addTodo} isDark={isDark} />
+            <AddTodo onAdd={addTodo} users={users} isDark={isDark} />
           </div>
 
           <div className={`border-t ${isDark ? 'border-[#424245]' : 'border-[#d2d2d7]'}`}>
@@ -343,14 +375,123 @@ export default function Home() {
                 onDelete={deleteTodo}
                 onEdit={editTodo}
                 onReorder={reorderTodos}
+                users={users}
                 isDark={isDark}
               />
             </div>
           </div>
         </div>
 
-        {/* Background Picker - Fixed top right */}
-        <div className="fixed top-4 right-4 z-50">
+        {/* Top right controls */}
+        <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+          {/* User Manager */}
+          <div className="relative">
+            <button
+              onClick={() => setShowUserManager(!showUserManager)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all shadow-md ${
+                isDark
+                  ? 'bg-[#2d2d2d]/90 text-white hover:bg-[#3d3d3d]/90 border border-[#424245]'
+                  : 'bg-white/95 text-[#1d1d1f] hover:bg-white border border-[#d2d2d7]'
+              } backdrop-blur-xl`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+              </svg>
+              <span className="hidden sm:inline">Users</span>
+              {users.length > 0 && (
+                <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                  isDark ? 'bg-[#0071e3] text-white' : 'bg-[#0071e3] text-white'
+                }`}>
+                  {users.length}
+                </span>
+              )}
+            </button>
+
+            {showUserManager && (
+              <div
+                className={`absolute top-full mt-2 right-0 p-4 rounded-2xl shadow-xl border backdrop-blur-xl w-72 ${
+                  isDark
+                    ? 'bg-[#2d2d2d]/95 border-[#424245]'
+                    : 'bg-white/98 border-[#d2d2d7]'
+                }`}
+              >
+                <h3 className={`text-sm font-semibold mb-3 ${isDark ? 'text-white' : 'text-[#1d1d1f]'}`}>
+                  Manage Users
+                </h3>
+
+                {/* Add user form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    addUser(newUserName);
+                    setNewUserName('');
+                  }}
+                  className="flex gap-2 mb-3"
+                >
+                  <input
+                    type="text"
+                    value={newUserName}
+                    onChange={(e) => setNewUserName(e.target.value)}
+                    placeholder="Add a user..."
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm outline-none ${
+                      isDark
+                        ? 'bg-[#1d1d1f] text-white placeholder-[#86868b] border border-[#424245] focus:border-[#2997ff]'
+                        : 'bg-[#f5f5f7] text-[#1d1d1f] placeholder-[#86868b] border border-transparent focus:border-[#0071e3]'
+                    }`}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!newUserName.trim()}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                      newUserName.trim()
+                        ? 'bg-[#0071e3] text-white hover:bg-[#0077ed]'
+                        : isDark
+                          ? 'bg-[#424245] text-[#86868b] cursor-not-allowed'
+                          : 'bg-[#d2d2d7] text-[#86868b] cursor-not-allowed'
+                    }`}
+                  >
+                    Add
+                  </button>
+                </form>
+
+                {/* User list */}
+                {users.length === 0 ? (
+                  <p className="text-sm text-[#86868b] text-center py-4">
+                    No users yet. Add one above.
+                  </p>
+                ) : (
+                  <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
+                    {users.map((user) => (
+                      <div
+                        key={user}
+                        className={`flex items-center justify-between px-3 py-2 rounded-lg ${
+                          isDark ? 'bg-[#1d1d1f]' : 'bg-[#f5f5f7]'
+                        }`}
+                      >
+                        <span className={`text-sm ${isDark ? 'text-white' : 'text-[#1d1d1f]'}`}>
+                          {user}
+                        </span>
+                        <button
+                          onClick={() => removeUser(user)}
+                          className={`p-1 rounded transition-colors ${
+                            isDark
+                              ? 'text-[#86868b] hover:text-[#ff453a]'
+                              : 'text-[#86868b] hover:text-[#ff3b30]'
+                          }`}
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Background Picker */}
           <div className="relative">
             <button
               onClick={() => setShowColorPicker(!showColorPicker)}

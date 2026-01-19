@@ -11,13 +11,15 @@ export interface Todo {
   completed: boolean;
   dueDate?: string;
   type: TodoType;
+  assignee?: string;
 }
 
 interface TodoItemProps {
   todo: Todo;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
-  onEdit: (id: string, text: string, dueDate?: string, type?: TodoType) => void;
+  onEdit: (id: string, text: string, dueDate?: string, type?: TodoType, assignee?: string) => void;
+  users: string[];
   isDark?: boolean;
 }
 
@@ -52,14 +54,14 @@ function TodoIcon({ completed }: { completed: boolean }) {
   return null;
 }
 
-export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = false }: TodoItemProps) {
+export default function TodoItem({ todo, onToggle, onDelete, onEdit, users, isDark = false }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
   const [editDueDate, setEditDueDate] = useState(todo.dueDate || '');
   const [editType, setEditType] = useState<TodoType>(todo.type || 'personal');
+  const [editAssignee, setEditAssignee] = useState(todo.assignee || '');
   const [wasCompleted, setWasCompleted] = useState(todo.completed);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dateInputRef = useRef<HTMLInputElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
 
   const isOverdue = todo.dueDate && !todo.completed && new Date(todo.dueDate) < new Date();
@@ -145,7 +147,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
 
   const handleSave = () => {
     if (editText.trim()) {
-      onEdit(todo.id, editText.trim(), editDueDate || undefined, editType);
+      onEdit(todo.id, editText.trim(), editDueDate || undefined, editType, editAssignee || undefined);
       setIsEditing(false);
     }
   };
@@ -154,6 +156,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
     setEditText(todo.text);
     setEditDueDate(todo.dueDate || '');
     setEditType(todo.type || 'personal');
+    setEditAssignee(todo.assignee || '');
     setIsEditing(false);
   };
 
@@ -241,11 +244,10 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
               {editDueDate ? formatDateTime(editDueDate) : 'Due date'}
             </div>
             <input
-              ref={dateInputRef}
               type="datetime-local"
               value={editDueDate}
               onChange={(e) => setEditDueDate(e.target.value)}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               style={{ colorScheme: isDark ? 'dark' : 'light' }}
             />
           </div>
@@ -264,6 +266,24 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+          )}
+
+          {/* Assignee selector */}
+          {users.length > 0 && (
+            <select
+              value={editAssignee}
+              onChange={(e) => setEditAssignee(e.target.value)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all outline-none cursor-pointer ${
+                isDark
+                  ? 'bg-[#2d2d2d] text-[#f5f5f7] border border-[#424245] focus:border-[#2997ff]'
+                  : 'bg-white text-[#1d1d1f] border border-[#d2d2d7] focus:border-[#0071e3]'
+              }`}
+            >
+              <option value="">Unassigned</option>
+              {users.map((user) => (
+                <option key={user} value={user}>{user}</option>
+              ))}
+            </select>
           )}
 
           <div className="flex gap-2 ml-auto">
@@ -334,6 +354,22 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, isDark = fa
       >
         <TypeIcon />
       </span>
+
+      {/* Assignee Badge */}
+      {todo.assignee && (
+        <span
+          className={`flex-shrink-0 flex items-center gap-1 text-xs px-2 py-1 rounded-full font-medium ${
+            isDark
+              ? 'bg-[#3d3d3d] text-[#f5f5f7]'
+              : 'bg-[#e8e8ed] text-[#1d1d1f]'
+          }`}
+        >
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+          {todo.assignee}
+        </span>
+      )}
 
       {/* Content */}
       <div

@@ -1,26 +1,28 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { TodoType, TYPE_CONFIG } from './TodoItem';
 
 interface AddTodoProps {
-  onAdd: (text: string, dueDate?: string, type?: TodoType) => void;
+  onAdd: (text: string, dueDate?: string, type?: TodoType, assignee?: string) => void;
+  users: string[];
   isDark?: boolean;
 }
 
-export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
+export default function AddTodo({ onAdd, users, isDark = false }: AddTodoProps) {
   const [text, setText] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [todoType, setTodoType] = useState<TodoType>('personal');
+  const [assignee, setAssignee] = useState('');
   const [showTypeMenu, setShowTypeMenu] = useState(false);
-  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      onAdd(text.trim(), dueDate || undefined, todoType);
+      onAdd(text.trim(), dueDate || undefined, todoType, assignee || undefined);
       setText('');
       setDueDate('');
+      setAssignee('');
     }
   };
 
@@ -132,11 +134,10 @@ export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
           </div>
           {/* Actual datetime input - positioned over button for touch/click */}
           <input
-            ref={dateInputRef}
             type="datetime-local"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             style={{ colorScheme: isDark ? 'dark' : 'light' }}
           />
         </div>
@@ -157,6 +158,26 @@ export default function AddTodo({ onAdd, isDark = false }: AddTodoProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+        )}
+
+        {/* Assignee selector */}
+        {users.length > 0 && (
+          <select
+            value={assignee}
+            onChange={(e) => setAssignee(e.target.value)}
+            className={`px-3 py-3 rounded-xl text-sm font-medium transition-all outline-none cursor-pointer ${
+              assignee
+                ? 'bg-[#34c759] text-white'
+                : isDark
+                  ? 'bg-[#1d1d1f]/80 text-[#86868b] border border-[#424245]'
+                  : 'bg-[#f5f5f7]/80 text-[#86868b] border border-transparent'
+            } backdrop-blur-sm`}
+          >
+            <option value="">Assign to...</option>
+            {users.map((user) => (
+              <option key={user} value={user}>{user}</option>
+            ))}
+          </select>
         )}
 
         {/* Add button */}
